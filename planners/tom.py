@@ -2,46 +2,6 @@ import numpy as np
 from typing import List, Tuple, Optional
 import scipy
 
-def dfs(grid, start, end):
-    """A DFS example"""
-    rows, cols = len(grid), len(grid[0])
-    stack = [start]
-    visited = set()
-    parent = {start: None}
-
-    # Consider all 8 possible moves (up, down, left, right, and diagonals)
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1),  # Up, Down, Left, Right
-                  (-1, -1), (-1, 1), (1, -1), (1, 1)]  # Diagonal moves
-
-    # iterative DFS
-    while stack:
-        x, y = stack.pop()
-        if (x, y) == end:
-            # Reconstruct the path
-            path = []
-            while (x, y) is not None:
-                path.append((x, y))
-                if parent[(x, y)] is None:
-                    break  # Stop at the start node
-                x, y = parent[(x, y)]
-            print(len(path))  # 128
-            return path[::-1]  # Return reversed path
-
-        # Movement
-        if (x, y) in visited:
-            continue
-        visited.add((x, y))
-
-        for dx, dy in directions:
-            nx, ny = x + dx, y + dy
-            # grid[nx][ny] == 0 checks if the cell is a collision, where a collision = 1
-            if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] == 0 and (nx, ny) not in visited:
-                stack.append((nx, ny))
-                parent[(nx, ny)] = (x, y)
-
-    return None  # Return None if no path is found
-
-
 # Calculate heuristic using the diagonal distance technique
 def diagonal_heuristic(x, y, end):
     # H = max(|x - end_x|, |y - end_y|)
@@ -78,9 +38,6 @@ def a_star(grid, start, end):
                 if parent[(x, y)] is None:
                     break  # Stop at the start node
                 x, y = parent[(x, y)]
-            # print("length: " + str(len(path)))
-            # print("start: " + str(start) + " : " + str(path[0]))
-            # print("end: " + str(end) + " : " + str(path[-1]))
             return path[::-1]  # Return reversed path
         if (x, y) in visited: continue
         visited.add((x, y))
@@ -101,9 +58,6 @@ def a_star(grid, start, end):
                         if parent[(x, y)] is None:
                             break  # Stop at the start node
                         x, y = parent[(x, y)]
-                    # print("\nlength: " + str(len(path)))
-                    # print("start: " + str(start) + " : " + str(path[0]))
-                    # print("end: " + str(end) + " : " + str(path[-1]))
                     return path[::-1]  # Return reversed path
                 # calculate new f
                 ng = g + 1
@@ -142,9 +96,6 @@ def plan_path(world: np.ndarray, start: Tuple[int, int], end: Tuple[int, int]) -
 
     # Convert the numpy array to a list of lists for compatibility with the example DFS function
     world_list: List[List[int]] = world.tolist()
-
-    # Perform DFS pathfinding and return the result as a numpy array
-    # path = dfs(world_list, start, end)
 
     # Perform A* search
     path = a_star(world_list, start, end)
