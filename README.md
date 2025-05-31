@@ -3,14 +3,13 @@
 The following repository contains the work of a semester-long AI search project including
 each of the three game modes of each project (main, main2, main3), the agent planners
 I've developed for each of them (Tom, Jerry, Spike), and the [paper](https://github.com/adammartin13/adversarialSearch/blob/main/Paper.pdf)
-I wrote for the final submission which you may refer to for a more thorough explanation of the final
-model including formulas and sources used.
+I wrote for the final submission.
 
-During this time I learned AI algorithms and how to implement them. The class was divided
+The class was divided
 into 32 groups to which I worked alone. By Project 2 the group agents would be pit into a
 competition against one another, with my agents placing in both.
 
-For the three projects our agents are placed in a 30x30 grid with obstacles with the goal
+For the three projects our agents are placed in a 30x30 grid with obstacles and the goal
 of capturing a target. A target is captured when both the agent and the target occupy the
 same space in the same round. All agents move at the same time. In the test environment there
 are 100 generated maps, with each map ran five times and agent locations randomized each game.
@@ -27,9 +26,8 @@ Project 1 uses the [main2.py](https://github.com/adammartin13/adversarialSearch/
 
 ### Project 1 Rules
 
-The agent does not compete against other teams' agents, rather simply is provided a still
-target at a randomized location amongst obstacles and must find the shortest path to the target,
-then capture it.
+The agent does not compete against other teams' agents, rather is simply provided a still
+target at a randomized location amongst obstacles and must find the shortest path to the target.
 
 ### A*
 
