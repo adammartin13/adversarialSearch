@@ -2,8 +2,8 @@
 
 The following repository contains the work of a semester-long AI search project including
 each of the three game modes of each project (main, main2, main3), the agent planners
-I've developed for each of them (Tom, Jerry, Spike), and the paper (LINK NEEDED) I wrote
-for the final submission which you may refer to for a more thorough explanation of the final
+I've developed for each of them (Tom, Jerry, Spike), and the [paper](https://github.com/adammartin13/adversarialSearch/blob/main/Paper.pdf)
+I wrote for the final submission which you may refer to for a more thorough explanation of the final
 model including formulas and sources used.
 
 During this time I learned AI algorithms and how to implement them. The class was divided
@@ -22,8 +22,8 @@ gets 1 point.
 
 ## Project 1
 
-Project 1 uses the main2.py (LINK NEEDED) driver code with the Tom.py (LINK NEEDED) planner
-agent.
+Project 1 uses the [main2.py](https://github.com/adammartin13/adversarialSearch/blob/main/main2.py) driver code with the 
+[Tom.py](https://github.com/adammartin13/adversarialSearch/blob/main/planners/tom.py) planner agent.
 
 ### Project 1 Rules
 
@@ -50,7 +50,8 @@ the target was reachable and never crashed into obstacles.
 
 ## Project 2
 
-Project 2 uses the main2.py (LINK NEEDED) driver code with the Jerry.py (LINK NEEDED) planner agent.
+Project 2 uses the [main3.py](https://github.com/adammartin13/adversarialSearch/blob/main/main3.py) 
+driver code with the [Jerry.py](https://github.com/adammartin13/adversarialSearch/blob/main/planners/jerry.py) planner agent.
 
 ### Project 2 Rules
 
@@ -86,14 +87,63 @@ net value determines which route and ultimately choice is the best decision.
 Because MCTS requires some form of randomization, the entire process is simulated many times
 per turn to get a wider understanding of potential outcomes. Our MCTS balances both risk
 and exploration by exploiting high value moves and exploring new routes using Upper Confidence
-Bound for Trees (UCT). For a breakdown of the formula, please refer to the paper (LINK NEEDED).
+Bound for Trees (UCT). For a breakdown of the formula, please refer to the [paper](https://github.com/adammartin13/adversarialSearch/blob/main/Paper.pdf).
 
 ### Hybrid Adversarial A*-MCTS
 
-- Results
+A* is fast and will reliably return the shortest path to our target, however MCTS allows us to
+simulate many possible outcomes to determine the greatest long-term strategy at the cost of being
+much more computationally expensive. To get the best of both, our agent relies on A* unless within
+a short specified range to either the target or the aggressor.
+
+### Results
+
+Our agents MCTS implementation was rather flawed, unable to take full advantage of simulation rollouts.
+Despite this flaw, the agent managed to place in the first competition across the class.
+
 ## Project 3
-- Files
-- Rules of Project 3
-- Final improvements to the model
-- Results
-- The paper
+
+Project 3 uses the [main.py](https://github.com/adammartin13/adversarialSearch/blob/main/main.py) driver and the [Spike.py](https://github.com/adammartin13/adversarialSearch/blob/main/planners/spike.py)
+search agent. [devel.py](https://github.com/adammartin13/adversarialSearch/blob/main/devel.py) is a test file included for testing agents.
+
+### Project 3 Rules
+
+Our agents now have set probabilities, unknown to them and randomized per game, where a desired returned action has a
+percent chance of being left or right shifted by 90 degrees. To prevent collisions the agents must now perform estimations
+and properly utilize them in their desired outcomes.
+
+In addition to modifying our agent to operate under the new game conditions, we also added a series of action overrides
+to metagame the conditions of our environment.
+
+### Bayesian Estimation with Dirichlet Prior
+
+Our probability estimator combines Maximum Likelihood Estimation with Bayesian Estimation and Laplace smoothing 
+where we use previous knowledge to increase our likelihood of correctly estimating probabilities as our agent plays
+the game. The probability of an action occuring is equal to the number of times the actions result has been observed
+divided by the total number of actions recorded.
+
+### Crash
+
+The Crash override allows us to intentionally run our agent into an obstacle in the event that either the target
+cannot be captured of if the next action would risk capture by the agent pursuing ours and there's an obstacle within
+range. This allows our agent to have a lower loss point ratio relative to surrending a win to the opposing agents.
+
+### Dodge
+
+The Dodge override allows us to take advantage of the lack of in-game physics by allowing our agent to phase through and
+swap positions with the agent pursuing us. This assumes that the opposing agent will choose to not stand still. If succesful,
+this not only helps us avoid capture but potentially puts us in a path towards our intended target.
+
+### Slide
+
+The Slide override allows us to avoid crashing when adjacent to obstacles by finding the heuristically most favorable outcome
+rotation probabilities in mind.
+
+### Results
+
+Our agent in this final implementation not only patched the rollout simulation errors of the previous project, but also effectively
+determines probabilities and utilizes the series of overrides we've implemented. We placed in the competition against other agents
+and received a perfect score in the class.
+
+### The Paper
+For a more thorough breakdown on the final implementation with formulas and sources, please refer to the [paper](https://github.com/adammartin13/adversarialSearch/blob/main/Paper.pdf).
